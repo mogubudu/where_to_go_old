@@ -1,11 +1,14 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
+from django.urls import reverse
 
 from .models import Place
 
 
 def index(request):
+    template = 'places/index.html'
     places = Place.objects.all()
+
     features = []
     for place in places:
         features.append({
@@ -17,18 +20,17 @@ def index(request):
           "properties": {
             "title": place.title,
             "placeId": place.id,
-            "detailsUrl": "https://raw.githubusercontent.com/devmanorg/where-to-go-frontend/master/places/moscow_legends.json"
+            "detailsUrl": reverse('places:place_detail', args=[place.pk])
           }
         })
-    template = 'index.html'
-    json = {
-      "type": "FeatureCollection",
-      "features": features
-    }
 
     context = {
-        'json': json,
+        'json': {
+            'type': "FeatureCollection",
+            'features': features
+            },
     }
+
     return render(request, template, context=context)
 
 
@@ -44,5 +46,7 @@ def place_detail(request, pk):
             'lng': place.longitude
         }
     }
-    
-    return JsonResponse(response, safe=False, json_dumps_params={'ensure_ascii': False, 'indent': 2})
+
+    return JsonResponse(response,
+                        safe=False,
+                        json_dumps_params={'ensure_ascii': False, 'indent': 2})
