@@ -7,7 +7,7 @@ from .models import Place
 
 def index(request):
     template = 'places/index.html'
-    places = Place.objects.all()
+    places = Place.objects.filter(is_published=True)
 
     features = []
     for place in places:

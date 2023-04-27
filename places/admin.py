@@ -18,11 +18,7 @@ class PlaceImageInline(SortableTabularInline):
 
 @admin.register(Place)
 class PlaceAdmin(SortableAdminBase, admin.ModelAdmin):
+    search_fields = ('title',)
     inlines = [
         PlaceImageInline,
     ]
-
-
-@admin.register(PlaceImage)
-class PlaceImageAdmin(admin.ModelAdmin):
-    pass
