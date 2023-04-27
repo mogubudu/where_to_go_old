@@ -15,17 +15,27 @@ source env/bin/activate
 ```
 pip install -r requirements.txt
 ```
-Подготовить миграции:
+## Переменные окружения
+Некоторые чувствительные данные хранятся в настройках окружения, поэтому нужно создать файл .env в корне проекта и прописать там две переменные: `DEBUG` и `SECRET_KEY`.
+
+Пример:
+```
+SECRET_KEY = 'django-insecure-=1w(-t#(^t$4%i)7q1bz8!)!uk*&2jk-uqw^u*btwz#oki8a$0'
+DEBUG = 'True'
+```
+
+## Запуск проекта локально
+
+Подготавливаем миграции, прописав в командной строке:
 ```
 python manage.py makemigrations
 ```
-
-Выполнить миграции:
+Выполняем миграции:
 ```
 python manage.py migrate
 ```
 
-Запустить проект:
+Запускаем проект:
 ```
 python manage.py runserver
 ```
