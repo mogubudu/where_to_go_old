@@ -1,12 +1,14 @@
 from django.contrib import admin
 from django.utils.html import format_html
+from adminsortable2.admin import SortableTabularInline, SortableAdminBase
 
 from .models import Place, PlaceImage
 
 
-class PlaceImageInline(admin.TabularInline):
+class PlaceImageInline(SortableTabularInline):
     model = PlaceImage
     readonly_fields = ('get_preview',)
+    ordering = ('position',)
 
     def get_preview(self, obj):
         return format_html('<img src="{url}" width="{width}">',
@@ -15,7 +17,7 @@ class PlaceImageInline(admin.TabularInline):
 
 
 @admin.register(Place)
-class PlaceAdmin(admin.ModelAdmin):
+class PlaceAdmin(SortableAdminBase, admin.ModelAdmin):
     inlines = [
         PlaceImageInline,
     ]
